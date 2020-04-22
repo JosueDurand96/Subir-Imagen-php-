@@ -24,6 +24,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -48,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView mostrarImagenSeleccionada;
     EditText imageName;
     Bitmap bitmap;
-    String ImageTag = "image_tag";
-    String ImageName = "image_data";
+    String ImageTag = "nombre";
+    String ImageName = "foto";
     ProgressDialog progressDialog;
     ByteArrayOutputStream byteArrayOutputStream;
     byte[] byteArray;
@@ -213,7 +215,9 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(String string1) {
                 super.onPostExecute(string1);
                 progressDialog.dismiss();
-                Toast.makeText(MainActivity.this, string1, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Se subió la imagen correctamente", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -223,9 +227,8 @@ public class MainActivity extends AppCompatActivity {
                 HashMapParams.put(ImageTag,obtenernombredeleditText);
                 HashMapParams.put(ImageName,ConvertImage);
 
-                String FinalData=imageProcessClass.
-                        ImageHttpRequest("http://Your URL Server/Upload Images/upload.php",HashMapParams);
-                return FinalData;
+                String finalData=imageProcessClass.ImageHttpRequest("http://josuedurand-001-site2.btempurl.com/josueAndroid/mimercado/Admin/cargarfoto.php",HashMapParams);
+                return finalData;
             }
 
 
@@ -301,6 +304,11 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "Prende tu camara pee ", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        isFinishing();
     }
 }
 
